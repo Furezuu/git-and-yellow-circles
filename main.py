@@ -21,9 +21,10 @@ class YellowCirclesForm(QWidget):
         self.painter = QPainter()
 
         self.init_ui()
+        self.generate_circles()
 
     def init_ui(self):
-        pass
+        self.pb_draw_circles.clicked.connect(self.generate_circles)
 
     def generate_circles(self):
         self.circles.clear()
@@ -42,11 +43,11 @@ class YellowCirclesForm(QWidget):
         self.painter.setPen(QColor(255, 200, 0))
         for circle in self.circles:
             self.draw_circle(circle)
-            self.update()
+        self.update()
 
     def draw_circle(self, circle: Circle):
         self.painter.drawEllipse(circle.x - circle.r, circle.y - circle.r,
-                                 circle.x + circle.r, circle.y + circle.r)
+                                 2 * circle.r, 2 * circle.r)
 
 
 if __name__ == '__main__':
