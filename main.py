@@ -1,9 +1,35 @@
 import sys
-from random import randint
+from random import randint as rnd
 
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5 import uic, QtGui
+from PyQt5 import QtGui, QtCore, QtWidgets
+
+
+class Ui_CirclesForm(object):
+    def setupUi(self, CirclesForm):
+        CirclesForm.setObjectName("CirclesForm")
+        CirclesForm.resize(334, 364)
+        self.gridLayout = QtWidgets.QGridLayout(CirclesForm)
+        self.gridLayout.setObjectName("gridLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.pb_draw_circles = QtWidgets.QPushButton(CirclesForm)
+        self.pb_draw_circles.setObjectName("pb_draw_circles")
+        self.horizontalLayout.addWidget(self.pb_draw_circles)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
+
+        self.retranslateUi(CirclesForm)
+        QtCore.QMetaObject.connectSlotsByName(CirclesForm)
+
+    def retranslateUi(self, CirclesForm):
+        _translate = QtCore.QCoreApplication.translate
+        CirclesForm.setWindowTitle(_translate("CirclesForm", "CirclesForm"))
+        self.pb_draw_circles.setText(_translate("CirclesForm", "Draw circles"))
 
 
 class Circle:
@@ -11,10 +37,9 @@ class Circle:
         self.x, self.y, self.r = x, y, rad
 
 
-class YellowCirclesForm(QWidget):
+class YellowCirclesForm(QWidget, Ui_CirclesForm):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
 
         self.circles = []
 
@@ -29,9 +54,9 @@ class YellowCirclesForm(QWidget):
     def generate_circles(self):
         self.circles.clear()
         for _ in range(10):
-            self.circles.append(Circle(randint(0, self.width()),
-                                       randint(0, self.height()),
-                                       randint(10, 100)
+            self.circles.append(Circle(rnd(0, self.width()),
+                                       rnd(0, self.height()),
+                                       rnd(10, 100)
                                        ))
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
@@ -40,7 +65,7 @@ class YellowCirclesForm(QWidget):
         self.painter.end()
 
     def draw_circles(self):
-        self.painter.setPen(QColor(255, 200, 0))
+        self.painter.setPen(QColor(rnd(0, 255), rnd(0, 255), rnd(0, 255)))
         for circle in self.circles:
             self.draw_circle(circle)
         self.update()
